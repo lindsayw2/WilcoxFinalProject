@@ -4,11 +4,13 @@
 
     const output = document.getElementById("output");
     const genreSelect = document.getElementById("genre");
+    const numChordsSelect = document.getElementById("numChords");
     const generateBtn = document.getElementById("generate");
 
     //main event handler
     generateBtn.onclick = () => {
       const genre = genreSelect.value;
+      const numChords = parseInt (numChordsSelect.value);
       const key = "C";
       const scale = Tonal.Scale.get(`${key} major`) .notes;
       let progression = [];
@@ -38,27 +40,33 @@ if (genre === "pop") {               // I – V – vi – IV
   ];
 };
 
-//show progression
-output.innerHTML = "";                                  // clear old results
-  const text = document.createElement("div");
-  text.textContent = "Chords: " + progression.join(" | ");
-  output.appendChild(text);
+//adjust progression to match number of chords
+let progression = [];
+while (progression.length < numChords) {
+  progression.push(baseProgression[progression.length % baseProgression.length]);
+}
 
-  //new play all button
+//show progression
+output.innerHTML = "";
+progression.forEach((chord, index) => {
+  const chordBlock = document.createElement("div");
+  chordBlock.className = "chord-block";
+
+  const chordText = document.createElement("span");
+  chordText.textContent = chord;
+
   const playBtn = document.createElement("button");
-  playBtn.textContent = "Play All";
+  playBtn.textContent = "Play";
   playBtn.onclick = async () => {
     const synth = new Tone.PolySynth().toDestination();
-    await Tone.start();                                   // unlock audio
+    await Tone.start(); // unlock audio
 
-    for (const chord of progression) {
-      const notes = Tonal.Chord.get(chord).notes.map(n => n + "4");
-      synth.triggerAttackRelease(notes, "1n");            // play chord
-      await new Promise(r => setTimeout(r, 700));         // wait 0.7 s
-    }
+    const notes = Tonal.Chord.get(chord).notes.map(n => n + "4");
+    synth.triggerAttackRelease(notes, "1n");
   };
 
-    
-      output.appendChild(playButton);
-    
-  
+  chordBlock.appendChild(chordText);
+  chordBlock.appendChild(playBtn);
+  output.appendChild(chordBlock);
+});
+

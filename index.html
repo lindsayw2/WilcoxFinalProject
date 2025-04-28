@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <title>Chord Progression Generator (Genres)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    #output { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;  }
+    .chord-block { margin: 10px 0; display: flex; align-items: center; }
+    .chord-block button { margin-left: 10px; }
+  </style>
 </head>
+
 
 <body>
   <h2>Chord Progression Generator</h2>
 
-  <!--Genre Dropdown -->
+  <!--Genre Dropdown Menu-->
   <label for="genre">Select Genre:</label>
   <select id="genre">
     <option value="pop">Pop</option>
@@ -16,8 +23,20 @@
     <option value="rock">Rock</option>
   </select>
 
+  <!-- Number of Chords Dropdown -->
+  <label for="numChords" style="margin-left:20px;">Number of Chords:</label>
+  <select id="numChords">
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+  </select>
+
   <!-- Generate Button -->
-  <button id="generate">Generate Chords</button>
+  <button id="generate" style="margin-left:20px;">Generate Progression</button>
 
   <!-- Output Box -->
   <div id="output" style="margin-top:20px;"></div>
