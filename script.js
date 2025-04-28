@@ -13,8 +13,9 @@
       const numChords = parseInt (numChordsSelect.value);
       const key = "C";
       const scale = Tonal.Scale.get(`${key} major`) .notes;
-      let progression = [];
-    }
+     
+      let baseProgression = [];
+    
 
 //genre specifc chords
 if (genre === "pop") {               // I – V – vi – IV
@@ -59,7 +60,7 @@ progression.forEach((chord, index) => {
   playBtn.textContent = "Play";
   playBtn.onclick = async () => {
     const synth = new Tone.PolySynth().toDestination();
-    await Tone.start(); // unlock audio
+    await Tone.start(); // audio
 
     const notes = Tonal.Chord.get(chord).notes.map(n => n + "4");
     synth.triggerAttackRelease(notes, "1n");
@@ -69,4 +70,5 @@ progression.forEach((chord, index) => {
   chordBlock.appendChild(playBtn);
   output.appendChild(chordBlock);
 });
+    };
 
